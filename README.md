@@ -1,17 +1,17 @@
 # Machines virtuelle
 
-## installation
+## Installation
 
 
 ```
-For machine second :
+Pour la machine ServerTest :
 host        ServerTest
 user        jc
 mp          dev
 ```
 
 
-### config virtualbox
+### Config virtualbox
 1. Télécharger la dernière version d'ubuntu serveur __LTS__ (Long Time Support), soit ìci `ubuntu-16.04.1-server-i386`
 1. Installer virtualbox
 1. Cliquer sur "_Nouvelle_".
@@ -39,7 +39,7 @@ mp          dev
 ![](./assets/img/virtualbox/8.png)
 
 
-### config serveur
+### Config serveur
 1. Votre machine démarre.
 ![](./assets/img/serveur/1.png)
 
@@ -143,9 +143,40 @@ mp          dev
 ![](./assets/img/serveur/34.png)
 
 
+## Importer une nouvelle machine
+```
+Pour la machine hepl-rsv :
+user        student
+mp          student
+```
+Avec le fichier en OVA, `hepl-rsv.ova`, nous allons l'importer dans virtualBox.
+1. Soit double cliquer sur le fichier soit dans virtualBox aller dans "_Fichier_" -> "_Importer un appareil virtuel..._"
+![](./assets/img/import/1.png)
+
+1. Cliquer sur l'icone de dossier. Et sélectionner le fichier _hepl-rsv.ova_.
+![](./assets/img/import/2.png)
+
+1. Cliquer sur suivant.
+![](./assets/img/import/3.png)
+
+1. Laisser les paramètres par défaut (vous pouvez changer le nom de la machine dans le champs "`Nom`"). Et cliquer sur importer.
+![](./assets/img/import/4.png)
+
+1. Patienter jusqu'à que la machine soit importée.
+![](./assets/img/import/5.png)
+
+
+
 ## COMMANDES :
 
 ```
 sudo shutdown now
 ```
 > pour arrêter le système + mp user
+
+```
+ifconfig
+```
+> pour connaitre l'adresse ip et les parmètres de la carte réseau
+
+__Pour plus de commandes reportez vous au cours [hepl-rsv/terminal](https://github.com/hepl-rsv/terminal)__
