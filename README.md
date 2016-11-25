@@ -171,14 +171,120 @@ Avec le fichier en OVA, `hepl-rsv.ova`, nous allons l'importer dans virtualBox.
 
 ## COMMANDES :
 
+> pour arrêter le système + mp user
 ```
 sudo shutdown now
 ```
-> pour arrêter le système + mp user
 
 ```
 ifconfig
 ```
 > pour connaitre l'adresse ip et les parmètres de la carte réseau
+
+---------------------------------------------
+
+> Pour installer en admin
+```
+sudo apt-get install -f
+```
+
+> Va faire une màj de tout de la __liste__ des pgm récents (pour que la liste soit à jour)
+```
+sudo apt-get update
+```
+idem pour faire la màj des package pour installer toutes les mises à jours dont __
+```
+sudo apt-get upgrade
+```
+> Si le clavier pas bien confi
+```
+sudo dpkg-reconfigure keyboard-configuration
+```
+> Pour installer apache2
+```
+sudo apt-get install apache2
+```
+
+~~Pour régler certains problème~~
+
+~~sudo dpkg --purge --force-depends "apache*"~~
+
+__Faire la redirection__
+![](assets/img/manip/X.png)
+
+> __Dans le terminal de votre ordinateur (git pour windows)__ taper :
+```
+$ ssh -l student -p 2222 127.0.0.1
+```
+
+__Pour démarrer la machine sans__
+![](assets/img/manip/X.png)
+-------
+# incomplet à éditer
+-------
+sites-available
+
+Arrêter de pointer vers var.html
+
+Retour au dossier user
+Pour revenir au dossier user
+
+Après on va dans sites-available pour changer
+après redémarer le service
+
+
+> _(utilisé dans ce cas ci)_ Pour juste relancer le service apache
+```
+sudo service apache2 reload
+```
+> Pour complètement relancer tout le service
+```
+sudo service apache2 restart
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+>
+```
+
+```
+
 
 __Pour plus de commandes reportez vous au cours [hepl-rsv/terminal](https://github.com/hepl-rsv/terminal)__
