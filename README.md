@@ -1,9 +1,8 @@
-# Machines virtuelle
+# Machines virtuelles
 
 Forked on : [https://github.com/hepl-rsv/VirtualBox-install](https://github.com/hepl-rsv/VirtualBox-install)
 
 ## Installation
-
 
 ```
 Pour la machine ServerTest :
@@ -13,7 +12,7 @@ mp          dev
 ```
 
 
-### Config virtualbox
+### Configurer virtualbox
 1. Télécharger la dernière version d'ubuntu serveur __LTS__ (Long Time Support), soit ìci `ubuntu-16.04.1-server-i386`
 1. Installer virtualbox
 1. Cliquer sur "_Nouvelle_".
@@ -41,7 +40,7 @@ mp          dev
 ![](./assets/img/virtualbox/8.png)
 
 
-### Config serveur
+### Installer le serveur
 1. Votre machine démarre.
 ![](./assets/img/serveur/1.png)
 
@@ -169,119 +168,212 @@ Avec le fichier en OVA, `hepl-rsv.ova`, nous allons l'importer dans virtualBox.
 
 
 
-## COMMANDES :
+## Configurer le serveur :
 
-> pour arrêter le système + mp user
-```
-sudo shutdown now
-```
+Maintenant que vous avez installé votre machine virtuel, voici comment la configurer pour qu'elle devenienne un serveur en installant dans un premier temps les services d'`apache` et en configurerant correctement ses fichiers.
 
-```
-ifconfig
-```
-> pour connaitre l'adresse ip et les parmètres de la carte réseau
+Voici toutes les commandes à taper (dans l'ordre) afin d'arriver au résultat recherché.
 
----------------------------------------------
+Tout d'abords entrer l'utilisateur (user)
 
-> Pour installer en admin
-```
-sudo apt-get install -f
-```
+![](./assets/img/config/1.png)
 
-> Va faire une màj de tout de la __liste__ des pgm récents (pour que la liste soit à jour)
+
+Ainsi que le mot de passe (mp)
+
+![](./assets/img/config/2.png)
+
+Vous devriez obtenir ceci (désormais, je ne mets plus de captures d'écran, juste les commandes à taper sur la machine) :
+
+![](./assets/img/config/3.png)
+
+> __Mettre à jour la liste de tous les packages__ (~programmes) devant être présent sur la machine (Vous devrez probablement entrer à nouveau le mp)
+
 ```
 sudo apt-get update
 ```
-idem pour faire la màj des package pour installer toutes les mises à jours dont __
+
+> Faire de même pour lancer __l'installation des mises à jour des packages__ (il vous demandera de confirmer l'installation, entrer `y` + `ENTER`)
+
 ```
 sudo apt-get upgrade
 ```
-> Si le clavier pas bien confi
+
+> Si le clavier n'est pas bien configuré __ÉTAPE NON NÉCESSAIRE__ _vous pouvez sauter directement à l'étape suivante_
+
 ```
 sudo dpkg-reconfigure keyboard-configuration
 ```
-> Pour installer apache2
+
+> Pour installer apache2 (il vous demandera de confirmer l'installation, entrer `y` + `ENTER`)
+
 ```
 sudo apt-get install apache2
 ```
 
-~~Pour régler certains problème~~
+--------------------------------------------------------------------
 
-~~sudo dpkg --purge --force-depends "apache*"~~
+__J'ai l'impression qu'il manque des étpaes__
 
-__Faire la redirection__
-![](assets/img/manip/X.png)
+--------------------------------------------------------------------
 
-> __Dans le terminal de votre ordinateur (git pour windows)__ taper :
+Nous venons de mettre à jour notre machine et avons installé apache. Maintenant nous allons vérifier que la machine réponde correctement avec le terminal (git pour windows).
+
+__Sur la machine :__
+> Prendre l'adresse ip (permet de connaitre aussi les parmètres de la carte réseau)
+
+```
+ifconfig
+```
+
+Maintenant __dans le terminal__ (ou dans git), nous allons faire un ping sur l'adresse du serveur, dans notre cas `ping 192.168.56.102`
+
+![](./assets/img/config/4.png)
+
+Si vous obtenez une perte de 0%, nous pouvons continuer et __faire la redirection de ports.__
+Dans virtualBox faites un clic droit sur votre machine et sélectionez `Configuration...` -> `Réseau` -> `Avancé` -> `redirection de ports`
+
+![](./assets/img/config/5.png)
+
+Cliquer sur `Ajouter une nouvelle règle de redirection` (icone verte à droite) et entrer les donnes suivantes et faire `OK` quand vous avez finit __PAS de redémarage requis pour la VM__
+
+![](./assets/img/config/6.png)
+
+
+> __Dans le terminal__ (ou dans git) taper :  
+> __ATTENTION__ remplacer `student` par votre user
+
 ```
 $ ssh -l student -p 2222 127.0.0.1
 ```
 
-__Pour démarrer la machine sans__
-![](assets/img/manip/X.png)
 -------
 # incomplet à éditer
 -------
-sites-available
 
-Arrêter de pointer vers var.html
+> Aller dans le dossier web d'appache `/var/www`. Nous allons modifier la page par défaut d'apache
 
-Retour au dossier user
-Pour revenir au dossier user
+```
+cd /var/www/html
+```
 
-Après on va dans sites-available pour changer
-après redémarer le service
+> Lister le contnu du dossier
 
+```
+ls -FAlh
+```
 
-> _(utilisé dans ce cas ci)_ Pour juste relancer le service apache
+> Regardons ce que contient le fichié index.html
+
+```
+cat index.html
+```
+
+Vous pouvez voir ce que ça donne en ouvrant votre navigateur et en entrant http://127.0.0.1:2080/
+
+> Maintenant supprimer cette page par défaut (il vous demande de confirmer, entrer `y` + `ENTER`)
+
+```
+rm index.html
+```
+
+> Vous allez avoir une erreur de type `Permission denied`, c'est normal vu qu'il faut être en admin pour pouvoir le supprimer. Alors petite astuce pour mettre le sudo à la commande précédemment tappée (il va vous demander le mot de passe et il n'y aura plus d'erreurs)
+
+```
+sudo !!
+```
+
+> Créer un nouveau fichier index.html et n'oublions pas cette fois-ci de préfixer notre commande de sudo.
+
+```
+sudo nano index.html
+```
+
+Introduire dans le nouveau fichier `Hello world !` par exemple et faire `CTRL` + `O` pour sauvegarder et puis `ENTER` pour confirmer ensuite `CTRL` + `X` pour quitter
+
+> Afficher le contenu de votre index pour vérifier vos modifications
+
+```
+cat index.html
+```
+
+> Accéder maintenant au dossier contenant les sites
+
+```
+cd /etc/apache2/sites-enabled
+```
+
+> Créer le dossier de votre premier site
+
+```
+sudo mkdir first-website
+```
+
+> Entrer dans son dossier
+
+```
+cd first-website
+```
+
+> Créer la page d'accueil du site (même oppération que tout à l'heure MAIS ne pas mettre le même contenu, ici par exemple mettre `Hey !` + refaire un cat pour vérifier le contenu)
+
+```
+sudo nano index.html
+```
+
+> Accéder au `sites-available` c'est dans ce dossier que l'on met en relation les dossiers avec le contenu navigable du serveur.
+
+```
+cd /etc/apache2/sites-available
+```
+
+> Regarder le contenu de ce dossier
+
+```
+ls -FAlh
+```
+
+> Éditer le fichier `000-default.conf`
+
+```
+sudo nano 000-default.conf
+```
+
+À la ligne `DocumentRoot /var/www/html` remplacer par `DocumentRoot /etc/apache2/sites-enabled/first-website` (ensuite faire la même chose pour enregistrer et quitter, expliqué ci-dessus)
+
+> Redémarer le service apache pour qu'il tienne compte des modifications
+
 ```
 sudo service apache2 reload
 ```
-> Pour complètement relancer tout le service
+
+> Pour complètement relancer tout le service on peut aussi faire ceci
+
 ```
 sudo service apache2 restart
 ```
+
+> pour arrêter le système (+ mp user)
+
+```
+sudo shutdown now
+```
+
+__Pour le prochain démarrage de la machine,__ faites clic droit -> `Démarrer` -> `Démarrage sans affichage` car par la suite on utilisera uniquement la machine en ligne de commande par ssh avec le terminal (ou git).
+
+![](./assets/img/config/7.png)
+
+
+---------------------------------------------
+
 >
+
 ```
 
 ```
->
-```
 
-```
 >
-```
 
-```
->
-```
-
-```
->
-```
-
-```
->
-```
-
-```
->
-```
-
-```
->
-```
-
-```
->
-```
-
-```
->
-```
-
-```
->
 ```
 
 ```
