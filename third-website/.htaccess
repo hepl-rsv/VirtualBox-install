@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /
+# RewriteRule ^debug$ /info.php
+RewriteRule debug /info.php 
+# règle patern cible
+# Si il trouve dans l'url le mot debug on va sur le fichier info.php
+
+# Deny from all
